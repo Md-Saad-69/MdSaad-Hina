@@ -368,6 +368,10 @@
             transition: all 0.6s var(--easing);
         }
         .timer-box.reveal { transform: scale(1); opacity: 1; }
+        .timer-container.reveal .timer-box{
+    transform: scale(1);
+    opacity: 1;
+}
 
         .timer-num { font-size: 2.5rem; font-weight: 700; color: #fff; text-shadow: 0 0 10px var(--neon-blue); }
         .timer-label { font-size: 0.85rem; color: var(--neon-pink); text-transform: uppercase; letter-spacing: 2px; margin-top: 5px;}
@@ -470,14 +474,21 @@
         }
 
         .polaroid-img {
-            width: 100%;
-            height: 200px; /* Placeholder height */
-            background: linear-gradient(45deg, #2a2a35, #1a1a25);
-            border-radius: 2px;
-            display: flex; align-items: center; justify-content: center;
-            overflow: hidden;
-            position: relative;
-        }
+    width: 100%;
+    aspect-ratio: 3 / 4;
+    border-radius: 2px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    position: relative;
+}
+.polaroid-img img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* cover hata de */
+    border-radius: 2px;
+}
         .polaroid-img::before {
             content: '📸'; font-size: 2rem; opacity: 0.3;
         }
@@ -656,9 +667,9 @@
 <body>
 
     <!-- Embedded Audio (Note: requires 'perfect.mp3' in the same directory, or fallback to visualizer sim) -->
-    <audio id="bg-music" loop crossorigin="anonymous">
+    <audio id="bg-music" loop>
         <!-- Using a placeholder URL to prevent errors, but intended for "Perfect - Ed Sheeran" -->
-        <source src="perfect.mp3" type="audio/mpeg">
+        <source src="./Perfect.mp3" type="audio/mpeg">
     </audio>
 
     <!-- Global Particle Canvas -->
@@ -809,27 +820,39 @@
             <div class="gallery-grid">
                 <!-- Using generic gradients/icons as placeholders for photos -->
                 <div class="polaroid reveal-element" style="--rot: -3;" onclick="openLightbox('The Day It Began')">
-                    <div class="polaroid-img" style="background: linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);"></div>
+                    <div class="polaroid-img">
+    <img src="theday.jpeg" alt="">
+</div>
                     <div class="polaroid-caption">The Day It Began</div>
                 </div>
                 <div class="polaroid reveal-element" style="--rot: 2;" onclick="openLightbox('Our Favorite Spot')">
-                    <div class="polaroid-img" style="background: linear-gradient(120deg, #f6d365 0%, #fda085 100%);"></div>
+                    <div class="polaroid-img">
+    <img src="spot.jpeg" alt="">
+</div>
                     <div class="polaroid-caption">Our Favorite Spot</div>
                 </div>
                 <div class="polaroid reveal-element" style="--rot: -1;" onclick="openLightbox('Silly Faces')">
-                    <div class="polaroid-img" style="background: linear-gradient(to right, #43e97b 0%, #38f9d7 100%);"></div>
+                    <div class="polaroid-img">
+    <img src="hlo.jpeg" alt="">
+</div>
                     <div class="polaroid-caption">Silly Faces</div>
                 </div>
                 <div class="polaroid reveal-element" style="--rot: 4;" onclick="openLightbox('Late Night Drives')">
-                    <div class="polaroid-img" style="background: linear-gradient(to top, #a18cd1 0%, #fbc2eb 100%);"></div>
-                    <div class="polaroid-caption">Late Night Drives</div>
+                    <div class="polaroid-img">
+    <img src="latenight.jpeg" alt="">
+</div>
+                    <div class="polaroid-caption">Late Night </div>
                 </div>
                 <div class="polaroid reveal-element" style="--rot: -2;" onclick="openLightbox('Your Beautiful Smile')">
-                    <div class="polaroid-img" style="background: linear-gradient(to top, #ff0844 0%, #ffb199 100%);"></div>
+                    <div class="polaroid-img">
+    <img src="smile.jpeg" alt="">
+</div>
                     <div class="polaroid-caption">Your Beautiful Smile</div>
                 </div>
                 <div class="polaroid reveal-element" style="--rot: 1;" onclick="openLightbox('Forever To Go')">
-                    <div class="polaroid-img" style="background: linear-gradient(to right, #b8cbb8 0%, #b8cbb8 0%, #b465da 0%, #cf6cc9 33%, #ee609c 66%, #ee609c 100%);"></div>
+                    <div class="polaroid-img">
+    <img src="forever.jpeg" alt="">
+</div>
                     <div class="polaroid-caption">Forever To Go</div>
                 </div>
             </div>
@@ -873,6 +896,20 @@
          JAVASCRIPT LOGIC
          ========================================================================== -->
     <script>
+        document.body.addEventListener("click", () => {
+  const music = document.getElementById("bg-music");
+
+  music.volume = 0.5;
+
+  music.play()
+    .then(() => {
+      console.log("Music started");
+    })
+    .catch(err => {
+      console.log("Playback blocked:", err);
+    });
+
+}, { once: true });
         /* ---------------------------------------------------
            LOCKSCREEN LOGIC & UNLOCK
            --------------------------------------------------- */
